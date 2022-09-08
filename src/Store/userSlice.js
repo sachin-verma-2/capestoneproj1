@@ -1,14 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit"
+import axios from "axios"
+import {createAsyncThunk,current} from '@reduxjs/toolkit'
+
 
 // const initialState = [];
 // let name,password;
 // reducers are pure fn
+export const fetchData=createAsyncThunk('/pages/fetchData',async ()=>{
+    try{
+
+            const result=await axios.get('http://localhost:9000/dashboard')
+            console.log('inside axios')
+            console.log(result.data)
+            return result.data
+        }
+    catch(e)
+    {
+        console.log(e)
+    }
+})
+
+
 const userSlice = createSlice({
     name:'login',
     initialState:{
         admin:false,
         status:false,
-        name:'User'
+        name:'User',
+        jobdata:[]
     },
     reducers:{
         // add(state,action){
@@ -43,6 +62,18 @@ const userSlice = createSlice({
         // remove(state,action){
         //     return state.filter(item=>item.title!==action.payload)
         // }
+    },
+    extraReducers:
+    {
+        [fetchData.fulfilled]:(state,action)=>
+        {
+            console.log("fulfilled",action.payload)
+            state.jobdata=[...state.jobdata,action.payload]
+            console.log(state.jobdata)
+            // state.value.loading=false;
+            // state.value.userdata=[...state.value.userdata,...action.payload]
+            // console.log(state.value.userdata.length)
+        }
     }
 })
 

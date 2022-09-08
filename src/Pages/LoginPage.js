@@ -2,17 +2,18 @@
 // events -> onblur etc
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 import AuthToken from '../Components/AuthToken';
 import {useDispatch} from 'react-redux';
 // import { add } from "../store/nameSlice";
 import {login,logout} from '../Store/userSlice';
-import "../CSS/LoginPage.css"
+import { fetchData } from "../Store/userSlice";
 function LoginPage(){
 
     const dispatch = useDispatch();
-    
+    const navigate=useNavigate()
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [pass,setPass] = useState('');
@@ -64,7 +65,7 @@ function LoginPage(){
           localStorage.setItem('userId',res.data.userId);
           localStorage.setItem('name',name)
           AuthToken(res.data.token);
-          
+          navigate('/userdashboard')
           const data = {
             admin:true,
             status:true,
@@ -79,49 +80,36 @@ function LoginPage(){
     }
 
     return(
-        <div className="container">  
- <div className=" no-gutters shadow-lg">  
- 
- <div className=" bg-white p-5">  
- <h3 className="pb-3">Login Form</h3>  
- <div className="form-style">  
- <form> 
- <div className="form-group pb-3">    
-   <input type="name" placeholder="Name" className="form-control" id="exampleInputName1" aria-describedby="nameHelp" onBlur={WarningName} onChange={(e)=>setName(e.target.value)}/>
-                     <p className="text-danger">{checkName}</p>   
-  </div>  
+        <div> 
+        <h1 className="text-primary d-flex justify-content-center m-4">LoginPage</h1>
 
-  <div className="form-group pb-3">    
-   <input type="email" placeholder="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onBlur={WarningEmail} onChange={(e)=>setEmail(e.target.value)}/>
-                     <p className="text-danger">{checkEmail}</p>   
-  </div>  
-  <div className="form-group pb-3">    
-   <input type="password" placeholder="Password" class="form-control" id="exampleInputPassword1" onBlur={WarningPass} onChange={(e)=>setPass(e.target.value)}/>  
-   <p className="text-danger">
-        {checkPass}</p>
-  </div>  
-  <div className="d-flex align-items-center justify-content-between">  
- <div className="d-flex align-items-center"><input name="" type="checkbox" value="" /> <span class="pl-2 font-weight-bold">Remember Me</span></div>  
- <div><a href="#">Forget Password?</a></div>  
- </div>  
-   <div className="pb-2">  
-  <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2"><Link onClick={(e)=>handleSubmit(e)} className={flag?'btn btn-primary':'btn btn-primary disabled'} to= '/movies'>Login</Link></button>  
-   </div>  
- </form>  
-  <div className="sideline">OR</div>  
-  <div>  
-  <button type="submit" class="btn btn-primary w-100 font-weight-bold mt-2"><i className="fa fa-facebook" aria-hidden="true"></i> Login With Facebook</button>  
-  </div>  
-  <div className="pt-4 text-center">  
-  Get Members Benefit. <Link to="/signup">Sign Up</Link>
-  </div>  
- </div>  
- </div>  
- </div>  
- </div>  
-        
-       
+        <form className="d-grid justify-content-center g-2 align-items-center">
+            <div className="form-group m-1">
+                {/* <label for="exampleInputPassword1">Password</label> */}
+                <input onBlur={WarningName} onChange={(e)=>setName(e.target.value)} type="text" className="form-control" id="exampleInputPassword1" placeholder="Name"></input>
+                <p className="text-danger" >{checkName}</p>
+            </div>
+           
+            <div className="form-group m-1">
+                {/* <label for="exampleInputEmail1">Email address</label> */}
+                <input onBlur={WarningEmail} onChange={(e)=>setEmail(e.target.value)} type="email" class="form-control" id="validationServer03" aria-describedby="emailHelp" placeholder="Enter email"></input>
+            </div>
+            <p className="text-danger">{checkEmail}</p>
+            <div className="form-group m-1">
+                {/* <label for="exampleInputPassword1">Password</label> */}
+                <input onBlur={WarningPass} onChange={(e)=>setPass(e.target.value)}  type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+            </div>
+            <p className="text-danger">
+                {checkPass}
+            </p>
+            
+        {/* <Link to='/userdashboard' onClick={(e)=>handleSubmit(e)} className={flag?'btn btn-primary':'btn btn-primary disabled'}> Submit</Link> */}
+        <button onClick={(e)=>handleSubmit(e)} className={flag?'btn btn-primary':'btn btn-primary disabled'}>Submit</button>
+        </form>
 
+
+
+        </div>
     )
 }
 export default LoginPage;

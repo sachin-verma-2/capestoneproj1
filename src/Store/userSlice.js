@@ -27,7 +27,8 @@ const userSlice = createSlice({
         admin:false,
         status:false,
         name:'User',
-        jobdata:[]
+        jobdata:[],
+        sorted:[]
     },
     reducers:{
         // add(state,action){
@@ -57,6 +58,37 @@ const userSlice = createSlice({
             state.status = false;
             state.admin = false;
             state.name = 'User';
+        },
+        sorting(state,action)
+        {
+            console.log('hi')
+            console.log(current(state))
+            console.log(action.payload)
+            if(action.payload.data==='fulltime')
+            {
+                state.sorted=[]
+                const x=state.jobdata[0].filter((item)=>item.jobType.toLowerCase()==='fulltime')
+                state.sorted=[...state.sorted,x]
+
+            }
+            else if(action.payload.data==='parttime')
+            {
+                state.sorted=[]
+
+                const x=state.jobdata[0].filter((item)=>item.jobType.toLowerCase()==='internship')
+                console.log(x)
+
+                state.sorted=[...state.sorted,x]
+
+            }
+            else if(action.payload.data==='wfh')
+            {
+                state.sorted=[]
+                const x=state.jobdata[0].filter((item)=>item.jobType.toLowerCase()==='workfromhome')  
+                state.sorted=[...state.sorted,x]
+
+            }
+            console.log(current(state))
         }
 
         // remove(state,action){
@@ -77,5 +109,5 @@ const userSlice = createSlice({
     }
 })
 
-export const{login,logout} = userSlice.actions;
+export const{login,logout,sorting} = userSlice.actions;
 export default userSlice.reducer; 

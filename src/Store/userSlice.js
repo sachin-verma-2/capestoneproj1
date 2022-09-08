@@ -67,25 +67,33 @@ const userSlice = createSlice({
             if(action.payload.data==='fulltime')
             {
                 state.sorted=[]
-                const x=state.jobdata[0].filter((item)=>item.jobType.toLowerCase()==='fulltime')
-                state.sorted=[...state.sorted,x]
+                const x=state.jobdata.filter((item)=>item.jobType.toLowerCase()==='fulltime')
+                state.sorted.push(...x)
 
             }
             else if(action.payload.data==='parttime')
             {
                 state.sorted=[]
 
-                const x=state.jobdata[0].filter((item)=>item.jobType.toLowerCase()==='internship')
+                const x=state.jobdata.filter((item)=>item.jobType.toLowerCase()==='internship')
                 console.log(x)
 
-                state.sorted=[...state.sorted,x]
+                state.sorted.push(...x)
 
             }
             else if(action.payload.data==='wfh')
             {
                 state.sorted=[]
                 const x=state.jobdata[0].filter((item)=>item.jobType.toLowerCase()==='workfromhome')  
-                state.sorted=[...state.sorted,x]
+                state.sorted.push(...x)
+
+
+            }
+            else if(action.payload.data==='duration')
+            {
+                state.sorted=[]
+                const x=[...state.jobdata[0]].sort((a,b)=>Number(a.duration)-Number(b.duration))
+                state.sorted.push(...x)
 
             }
             console.log(current(state))
@@ -99,8 +107,8 @@ const userSlice = createSlice({
     {
         [fetchData.fulfilled]:(state,action)=>
         {
-            console.log("fulfilled",action.payload)
-            state.jobdata=[...state.jobdata,action.payload]
+            console.log("fulfilled",...action.payload)
+            state.jobdata=[...state.jobdata,...action.payload]
             console.log(state.jobdata)
             // state.value.loading=false;
             // state.value.userdata=[...state.value.userdata,...action.payload]

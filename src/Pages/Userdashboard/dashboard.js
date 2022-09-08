@@ -30,6 +30,10 @@ const Dashboard=()=>
         setsearch(e.target.value)
         // console.log(search)
     }
+    const durationsort=(e,key)=>
+    {
+
+    }
 return  (
     <div>
         <Navi></Navi>
@@ -50,9 +54,10 @@ return  (
     <li><button class="btn btn-dark" onClick={(e)=>sortfun(e,'parttime')}>Part Time</button></li>
     <li><button class="btn btn-dark" onClick={(e)=>sortfun(e,'wfh')}>work from Home</button></li>
   </ul>
+  <button class="btn btn-dark" onClick={(e)=>sortfun(e,'duration')}>duration</button>
         </div>
-        {issort==='initial'?<Card value={jobdata[0]} val2={search}></Card>:
-        issort==='sort'?<Card value={sorted[0]} val2={search}></Card>:
+        {issort==='initial'?<Card value={jobdata} val2={search}></Card>:
+        issort==='sort'?<Card value={sorted} val2={search}></Card>:
         <div></div>}
  
     </div> 

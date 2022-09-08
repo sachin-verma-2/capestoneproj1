@@ -92,7 +92,7 @@ const userSlice = createSlice({
             else if(action.payload.data==='duration')
             {
                 state.sorted=[]
-                const x=[...state.jobdata[0]].sort((a,b)=>Number(a.duration)-Number(b.duration))
+                const x=[...state.jobdata].sort((a,b)=>Number(a.duration)-Number(b.duration))
                 state.sorted.push(...x)
 
             }

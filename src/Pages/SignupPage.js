@@ -1,5 +1,5 @@
 // events -> onblur etc
-
+import "../CSS/SignupPage.css"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,6 +13,7 @@ function SignupPage(){
     const [checkName,setCheckName] = useState('');
     const [checkPass,setCheckPass] = useState('');
     const [flag,setFlag] = useState(false);
+    const[admin,setAdmin] = useState(false);
     useEffect(()=>{
         if(email&&name&&pass&&phone){
             setFlag(true);
@@ -53,7 +54,8 @@ function SignupPage(){
       const user = {
         'name':name,
         'email':email,
-        'password':pass
+        'password':pass,
+        "admin":admin
     }
       axios.post('http://localhost:9000/signup',{user})
       .then(res=>{
@@ -72,40 +74,47 @@ function SignupPage(){
       });
     }
     return(
-        <div> 
-        <h1 className="text-primary d-flex justify-content-center m-4">SignupPage</h1>
-
-        <form className="d-grid justify-content-center g-2 align-items-center">
-            <div className="form-group m-1">
-                {/* <label for="exampleInputPassword1">Password</label> */}
-                <input onBlur={WarningName} onChange={(e)=>setName(e.target.value)} type="text" className="form-control" id="exampleInputPassword1" placeholder="Name"></input>
-                <p className="text-danger" >{checkName}</p>
-            </div>
-            <div className="form-group m-1">
-                {/* <label for="exampleInputPassword1">Password</label> */}
-                <input type="number" onBlur={WarningPhone} onChange={(e)=>setPhone(e.target.value)} className="form-control" id="exampleInputPassword1" placeholder="Phone no"></input>
-                <p className="text-danger" >{checkPhone}</p>
-            </div>
-           
-            <div className="form-group m-1">
-                {/* <label for="exampleInputEmail1">Email address</label> */}
-                <input onBlur={WarningEmail} onChange={(e)=>setEmail(e.target.value)} type="email" class="form-control" id="validationServer03" aria-describedby="emailHelp" placeholder="Enter email"></input>
-            </div>
-            <p className="text-danger">{checkEmail}</p>
-            <div className="form-group m-1">
-                {/* <label for="exampleInputPassword1">Password</label> */}
-                <input onBlur={WarningPass} onChange={(e)=>setPass(e.target.value)}  type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
-            </div>
-            <p className="text-danger">
-                {checkPass}
-            </p>
-            <button onClick={(e)=>handleSubmit(e)} className="btn btn-primary">Submit</button>
-            {/* <Link className={flag?'btn btn-primary':'btn btn-primary disabled'} to= '/login'> Submit </Link> */}
-        </form>
+        <div class="register-photo">
+<div class="form-container">
+<div class="image-holder"></div>
+<form method="post">
+<h2 class="text-center"><strong>Create</strong> an account.</h2>
+<div class="form-group"><input class="form-control" type="name" name="name" placeholder="Name"
+onBlur={WarningName} onChange={(e)=>setName(e.target.value)}/>
+</div>
+<p className="text-danger" >{checkName}</p>
+<div class="form-group"><input class="form-control" type="phone" name="phone" placeholder="Phone"
+onBlur={WarningPhone} onChange={(e)=>setPhone(e.target.value)}></input>
+</div>
+<p className="text-danger" >{checkPhone}</p>
 
 
+<div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"onBlur={WarningEmail} onChange={(e)=>setEmail(e.target.value)}/></div>
+<p className="text-danger">{checkEmail}</p>
+<div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" onBlur={WarningPass} onChange={(e)=>setPass(e.target.value)} /></div>
+<p className="text-danger">{checkPass}</p>
+<div className="form-check">
+                <input  onChange={(e)=>setAdmin(false)} className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+                <label className="form-check-label" for="flexRadioDefault1">
+                  Applicant
+                </label>
+              </div>
+              <div className="form-check">
+                <input  onChange={(e)=>setAdmin(true)} className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"></input>
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Recruiter
+                </label>
+              </div>
 
-        </div>
+<div class="form-group">
+<div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox"/>I agree to the license terms.</label></div>
+</div>
+<div class="form-group"><button class="btn btn-success btn-block" type="submit" onClick={(e)=>handleSubmit(e)}>Sign Up</button></div><a class="already" href="#">You already have an account?<Link to="/login">
+Login here.</Link> </a>
+</form>
+</div>
+</div> 
+        
     )
 }
 export default SignupPage;
